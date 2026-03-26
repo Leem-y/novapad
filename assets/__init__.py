@@ -1,0 +1,1 @@
+# NovaPad assets package
