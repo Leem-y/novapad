@@ -1,131 +1,54 @@
-# NovaPad 📝
+# NovaPad
 
-A modern, high-performance text editor inspired by Notepad++ with a clean macOS/Apple aesthetic. Built with PyQt6 for Windows, macOS, and Linux — compiles to a standalone `.exe` with PyInstaller.
-
----
-
-## ✨ Features
-
-### Core
-| Feature | Details |
-|---|---|
-| **Tabbed editing** | Open unlimited files in tabs — drag to reorder |
-| **New / Open / Save / Save As** | Full file management with keyboard shortcuts |
-| **Undo / Redo** | Unlimited undo history per tab |
-| **Cut / Copy / Paste / Select All** | Standard clipboard operations |
-
-### Advanced Editor
-| Feature | Details |
-|---|---|
-| **Line numbers** | Auto-updating gutter with current-line highlighting |
-| **Syntax highlighting** | Python, JavaScript/TypeScript, HTML/XML, CSS |
-| **Current line highlight** | Subtle background tint on cursor line |
-| **Word wrap toggle** | `Alt+Z` or View menu |
-| **Tab → Spaces** | Tab key inserts 4 spaces; Shift+Tab un-indents |
-
-### Convenience
-| Feature | Details |
-|---|---|
-| **F5 Timestamp** | Inserts `YYYY-MM-DD HH:MM:SS` at cursor |
-| **Find & Replace** | `Ctrl+F` / `Ctrl+H` — with match counter, case, wrap-around |
-| **Auto-save** | Saves all modified files with paths every 60 seconds |
-| **Session restore** | Re-opens your previous files on next launch |
-| **Zoom In/Out** | `Ctrl+=` / `Ctrl+-` / `Ctrl+0` |
-
-### Appearance
-| Feature | Details |
-|---|---|
-| **Dark Mode** | `Ctrl+Shift+D` or toolbar moon button |
-| **Light Mode** | Clean, minimal Apple-inspired stylesheet |
-| **Persistent settings** | Theme, word-wrap, line-numbers persist across sessions |
+A fast, modern text editor for Windows. Built with PyQt6 — ships as a standalone `.exe`.
 
 ---
 
-## 🚀 Quick Start
+## Features
 
-### Prerequisites
-- Python 3.10 or later
-- pip
+### Editor
+- **Multi-cursor editing** — `Alt+Click` to place extra cursors, `Ctrl+Alt+↑/↓` to add above/below. All cursors type simultaneously.
+- **Syntax highlighting** — Python, JavaScript/TypeScript, HTML/XML, CSS, JSON, Lua
+- **Find & Replace** — two-row bar with regex (`.*`), whole word (`\b`), case-sensitive (`Aa`), wrap indicator
+- **Auto-indent** — matches indentation of the current line on Enter
+- **Bracket/quote auto-close** — `(`, `[`, `{`, `"`, `'` all auto-pair
+- **Smart Home** — first press goes to first non-whitespace; second press goes to column 0
+- **Line operations** — `Ctrl+D` duplicate, `Ctrl+/` toggle comment, `Alt+↑/↓` move line
+- **Select all occurrences** — `Ctrl+Shift+L`
+- **Word occurrence highlighting** — highlights all instances of selected text
+- **Zoom** — `Ctrl+=` / `Ctrl+-` / `Ctrl+0`
+- **Minimap** — VS Code-style document overview (`Ctrl+Shift+M`)
+- **Line numbers** — seamless gutter that matches the editor background
+- **Bookmarks** — mark and jump to lines
+- **Go to line** — `Ctrl+G`
 
-### Installation
+### Tabs
+- **Drag to reorder** — animated tab shifting with a floating drag preview
+- **Inline rename** — double-click any tab to rename it
+- **Session restore** — all open tabs (including unsaved content) are restored on next launch
+- **Crash recovery** — detects unclean exits and prompts to restore
 
-```bash
-# 1. Clone or extract NovaPad
-cd novapad
+### Themes
+63 themes — 33 dark, 30 light. Every color in the UI comes from the active theme including the gutter, cursor, tabs, dialogs, and Windows title bar.
 
-# 2. (Optional but recommended) Create a virtual environment
-python -m venv venv
+**Dark:** NovaPad Dark, VS Code Dark+, One Dark Pro, Monokai, Dracula, Tokyo Night, Tokyo Night Storm, Gruvbox Dark, Nord, Catppuccin Mocha, Catppuccin Macchiato, Catppuccin Frappe, Solarized Dark, Material Dark, Palenight, Ayu Dark, Tomorrow Night, Cobalt2, Night Owl, SynthWave 84, Rose Pine, Rose Pine Moon, Kanagawa Wave, Kanagawa Dragon, Everforest Dark, Horizon Dark, Poimandres, Oxocarbon, Vesper, Moonlight, Melange Dark, Monokai Pro, Bluloco Dark, Rosebox, Flexoki Dark, Mellow, and more
 
-# Windows
-venv\Scripts\activate
+**Light:** NovaPad Light, GitHub Light, Solarized Light, One Light, Tomorrow, Rose Pine Dawn, Catppuccin Latte, Gruvbox Light, Everforest Light, Kanagawa Lotus, Ayu Light, Flexoki Light, Arctic, Mint, Peach, Lavender, Sakura, Fog, Linen, Sandstone, Parchment, Wheat, Copper, Forest Mist, Cobalt Light, Ink, Dusk, and more
 
-# macOS / Linux
-source venv/bin/activate
+Theme switching uses a crossfade transition. Click the paintbrush icon in the toolbar to open the theme picker.
 
-# 3. Install dependencies
-pip install -r requirements.txt
-
-# 4. Run NovaPad
-python main.py
-```
-
----
-
-## 🏗️ Building a Standalone Executable (.exe)
-
-### Using PyInstaller (recommended)
-
-```bash
-# Install PyInstaller
-pip install pyinstaller
-
-# Option A — Use the included spec file (recommended)
-pyinstaller novapad.spec
-
-# Option B — Quick single-command build
-pyinstaller main.py \
-    --noconsole \
-    --name NovaPad \
-    --noconfirm \
-    --exclude-module matplotlib \
-    --exclude-module numpy \
-    --exclude-module PyQt6.QtWebEngineWidgets
-```
-
-The built application will be in `dist/NovaPad/`. Share the entire `NovaPad/` folder or use a tool like [InstallForge](https://installforge.net/) to wrap it into an installer.
-
-### Build Tips
-- **Always build on the target OS** — PyInstaller is not a cross-compiler.
-- Build inside a **clean virtual environment** to avoid bundling unneeded packages.
-- If UPX is installed it will compress the `.exe` further (~30% smaller). Download from https://upx.github.io.
-- Add `--icon=assets/icon.ico` to set a custom taskbar icon.
+### UI
+- **Themed dialogs** — all popups (unsaved changes, update, crash recovery) match the active theme
+- **Animated theme transitions** — smooth crossfade when switching themes
+- **Focus mode** — `View → Distraction-Free Mode` hides all chrome. Exit via the `Exit Focus` button in the top-right corner
+- **Command palette** — `Ctrl+P` fuzzy-searches all menu actions
+- **Recent files** — `File → Recent Files` remembers the last 10 opened files
+- **Auto-save** — saves all files with paths every 60 seconds
+- **Timestamps** — `F5` inserts `YYYY-MM-DD HH:MM:SS` at cursor
 
 ---
 
-## 📁 Project Structure
-
-```
-novapad/
-├── main.py                  # Entry point — run this
-├── requirements.txt         # pip dependencies
-├── novapad.spec             # PyInstaller build spec
-│
-├── core/
-│   ├── editor.py            # CodeEditor + LineNumberArea + SyntaxHighlighter
-│   └── tab_manager.py       # TabManager — multi-file tab control
-│
-├── ui/
-│   ├── main_window.py       # MainWindow — menus, toolbar, status bar
-│   ├── find_bar.py          # FindBar — inline find/replace widget
-│   └── theme.py             # ThemeManager — QSS stylesheets (light + dark)
-│
-└── utils/
-    └── session.py           # SessionManager — save/restore open files
-```
-
----
-
-## ⌨️ Keyboard Shortcuts
+## Keyboard Shortcuts
 
 | Shortcut | Action |
 |---|---|
@@ -135,36 +58,81 @@ novapad/
 | `Ctrl+Shift+S` | Save As |
 | `Ctrl+Alt+S` | Save all |
 | `Ctrl+W` | Close tab |
-| `Ctrl+Z` | Undo |
-| `Ctrl+Y` | Redo |
+| `Ctrl+Z` / `Ctrl+Y` | Undo / Redo |
 | `Ctrl+F` | Find |
 | `Ctrl+H` | Find & Replace |
+| `Ctrl+G` | Go to line |
+| `Ctrl+P` | Command palette |
+| `Ctrl+D` | Duplicate line |
+| `Ctrl+/` | Toggle comment |
+| `Ctrl+Shift+L` | Select all occurrences |
+| `Alt+Up/Down` | Move line up/down |
+| `Ctrl+Alt+Up/Down` | Add cursor above/below |
+| `Alt+Click` | Add cursor at click position |
+| `Escape` | Clear extra cursors |
+| `Ctrl+=` / `Ctrl+-` / `Ctrl+0` | Zoom in / out / reset |
+| `Alt+Z` | Toggle word wrap |
+| `Ctrl+Shift+M` | Toggle minimap |
 | `F5` | Insert timestamp |
-| `Ctrl+Shift+D` | Toggle Dark Mode |
-| `Alt+Z` | Toggle Word Wrap |
-| `Ctrl+Shift+L` | Toggle Line Numbers |
-| `Ctrl+=` | Zoom in |
-| `Ctrl+-` | Zoom out |
-| `Ctrl+0` | Reset zoom |
-| `Tab` | Indent (4 spaces) |
-| `Shift+Tab` | Un-indent |
-| `Ctrl+]` | Indent selected lines |
-| `Ctrl+[` | Un-indent selected lines |
-| `Ctrl+Shift+U` | UPPERCASE selection |
+| `Tab` / `Shift+Tab` | Indent / un-indent |
+| `Ctrl+Shift+G` | Toggle line numbers |
 
 ---
 
-## 🔌 Extending NovaPad
+## Getting Started
 
-The architecture is deliberately modular:
+**Requirements:** Python 3.10+ and pip.
 
-- **Add a language** — in `core/editor.py`, add a new `elif lang == "...":` block in `SyntaxHighlighter._build_rules()` and update `_detect_language()`.
-- **Add a menu action** — call `self._add_action(menu, ...)` in `ui/main_window.py`.
-- **Add a theme** — copy the `LIGHT` / `DARK` dictionaries in `ui/theme.py` and add a new `ThemeManager.apply()` path.
-- **Plugins** — the `plugins/` directory is reserved for future plugin loading.
+```bash
+git clone https://github.com/Leem-y/novapad
+cd novapad
+pip install -r requirements.txt
+py main.py
+```
 
 ---
 
-## 📄 License
+## Building
+
+Run `build.bat` from the project root. Requires PyInstaller and Inno Setup 6.
+
+```bat
+build.bat
+```
+
+The installer is output to `installer/Output/NovaPad_Setup_x.x.x.exe`.
+
+---
+
+## Project Structure
+
+```
+novapad/
+├── main.py                 # Entry point
+├── build.bat               # One-click build script
+├── requirements.txt
+├── assets/
+│   └── icons.py            # SVG icon definitions (theme-aware)
+├── core/
+│   ├── editor.py           # CodeEditor — multi-cursor, gutter, highlighting
+│   ├── tab_manager.py      # Tab bar with drag reorder and inline rename
+│   └── highlighter.py      # Syntax highlighter
+├── ui/
+│   ├── main_window.py      # Main window, menus, toolbar, status bar
+│   ├── theme.py            # 63-theme system with ThemeManager
+│   ├── theme_picker.py     # Paintbrush theme picker with swatches + crossfade
+│   ├── dialogs.py          # Fully themed replacements for QMessageBox
+│   ├── find_bar.py         # Find & Replace bar
+│   ├── minimap.py          # Document minimap
+│   ├── command_palette.py  # Ctrl+P command palette
+│   ├── bookmarks.py        # Bookmark manager
+│   └── goto_line.py        # Go to line dialog
+└── utils/
+    └── session.py          # Session save/restore with crash detection
+```
+
+---
+
+## License
 
 MIT — free to use, modify, and distribute.
