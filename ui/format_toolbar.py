@@ -1,12 +1,12 @@
 # ui/format_toolbar.py -- NovaPad Formatting Toolbar
-# Bold / Italic / Underline + mode badge. No font picker.
+# Bold / Italic / Underline only. No mode badge.
 
 from __future__ import annotations
 
 from PyQt6.QtCore    import QByteArray, QSignalBlocker, Qt
 from PyQt6.QtGui     import QAction, QIcon, QPainter, QPixmap
 from PyQt6.QtSvg     import QSvgRenderer
-from PyQt6.QtWidgets import QLabel, QToolBar, QWidget
+from PyQt6.QtWidgets import QToolBar, QWidget
 
 from assets.icons import toolbar_color
 
@@ -34,12 +34,12 @@ def _make_icons(dark: bool):
         f'<text x="4" y="16" font-family="Georgia,serif" font-size="17"'
         f' font-style="italic" fill="{c}">I</text></svg>'
     )
-    # Clean underline: letter U + separate underline bar, properly spaced
+    # U letter + a short underline bar centred beneath it
     underline_svg = (
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">'
         f'<text x="2" y="14" font-family="Georgia,serif" font-size="15"'
         f' fill="{c}">U</text>'
-        f'<rect x="2" y="17" width="14" height="1.8" fill="{c}" rx="0.9"/>'
+        f'<rect x="2" y="16.5" width="11" height="1.6" fill="{c}" rx="0.8"/>'
         f'</svg>'
     )
     return (
@@ -78,13 +78,6 @@ class FormatToolbar(QToolBar):
         self._act_underline.triggered.connect(self._on_underline)
         self.addAction(self._act_underline)
 
-        self.addSeparator()
-
-        self._mode_label = QLabel("  RICH TEXT  ")
-        self._mode_label.setToolTip("Current editing mode")
-        self.addWidget(self._mode_label)
-
-        self._apply_mode_style("rich")
         self._refresh_icons()
 
     def _refresh_icons(self):
@@ -92,22 +85,6 @@ class FormatToolbar(QToolBar):
         self._act_bold.setIcon(b)
         self._act_italic.setIcon(i)
         self._act_underline.setIcon(u)
-
-    def _apply_mode_style(self, mode: str):
-        if mode == "rich":
-            self._mode_label.setText("  RICH TEXT  ")
-            self._mode_label.setStyleSheet(
-                "QLabel { color: #0A84FF; font-size: 10px; font-weight: 600;"
-                " padding: 2px 6px; border-radius: 4px;"
-                " background: rgba(10,132,255,0.12); }"
-            )
-        else:
-            self._mode_label.setText("  CODE  ")
-            self._mode_label.setStyleSheet(
-                "QLabel { color: #30D158; font-size: 10px; font-weight: 600;"
-                " padding: 2px 6px; border-radius: 4px;"
-                " background: rgba(48,209,88,0.12); }"
-            )
 
     # -- Public API ----------------------------------------------------------
 
@@ -135,7 +112,6 @@ class FormatToolbar(QToolBar):
 
         rich = self._editor.is_rich_mode()
         self._set_enabled(rich)
-        self._apply_mode_style("rich" if rich else "code")
 
         if not rich:
             return

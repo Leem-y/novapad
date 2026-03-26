@@ -92,6 +92,40 @@ def main():
 
     window.show()
 
+    # ── Check for updates (non-blocking, runs 3s after launch) ───────────
+    def _check_updates():
+        import urllib.request, json
+        try:
+            url = "https://api.github.com/repos/Leem-y/novapad/releases/latest"
+            req = urllib.request.Request(url, headers={"User-Agent": "NovaPad"})
+            with urllib.request.urlopen(req, timeout=4) as r:
+                data = json.loads(r.read())
+            latest  = data.get("tag_name", "").lstrip("v")
+            current = "3.0.0"
+            if latest and latest != current:
+                from PyQt6.QtWidgets import QMessageBox, QPushButton
+                msg = QMessageBox(window)
+                msg.setWindowTitle("Update Available")
+                msg.setText(
+                    f"NovaPad {latest} is available!\n\n"
+                    f"You are running version {current}.\n"
+                    f"Download the latest installer from GitHub."
+                )
+                msg.setIcon(QMessageBox.Icon.Information)
+                open_btn = msg.addButton("Open GitHub", QMessageBox.ButtonRole.AcceptRole)
+                msg.addButton("Later", QMessageBox.ButtonRole.RejectRole)
+                msg.exec()
+                if msg.clickedButton() == open_btn:
+                    import webbrowser
+                    webbrowser.open("https://github.com/Leem-y/novapad/releases/latest")
+        except Exception:
+            pass  # silently fail if offline or rate-limited
+
+    update_timer = QTimer()
+    update_timer.setSingleShot(True)
+    update_timer.timeout.connect(_check_updates)
+    update_timer.start(3000)   # 3 seconds after launch
+
     # ── Periodic auto-session save (every 30 s) ───────────────────────────
     auto_timer = QTimer()
     auto_timer.timeout.connect(lambda: session.save(window))
