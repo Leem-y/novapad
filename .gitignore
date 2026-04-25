@@ -25,6 +25,9 @@ debug-*.log
 .idea/
 *.swp
 
+# Claude / AI tool configs (local only, not for source control)
+.claude/
+
 # Windows
 Thumbs.db
 desktop.ini
