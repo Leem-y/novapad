@@ -1,0 +1,10 @@
+# NovaPad 2.0 – Python dependencies
+# Install with:  pip install -r requirements.txt
+
+PyQt6>=6.5.0
+PyQt6-Qt6>=6.5.0
+PyQt6-sip>=13.5.0
+
+# Build tools (install separately when packaging)
+# pyinstaller>=6.0.0
+# nuitka>=2.0

@@ -1,0 +1,2 @@
+D:\Python\novapad\native\hotkey_helper\bin\Release\net8.0-windows\win-x64\publish\HotkeyHelper.pdb
+D:\Python\novapad\native\hotkey_helper\bin\Release\net8.0-windows\win-x64\publish\HotkeyHelper.exe
